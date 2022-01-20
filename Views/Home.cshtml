@@ -1,0 +1,181 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+<div class="carousel-wrapper">    
+      <div class='mod modDefaultSlider'>
+        <div class='sequence' data-autostop='on' data-timeout='0'>
+          <ul class='sequence-canvas'>
+            <li class='frame static'>
+              <div class='bg' style='background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0)), url(/images/hero-image-berlin.jpg);'></div>
+              <div class='title bottom-to-top'>
+                <div class='row'>
+                  <div class='large-8 large-centered columns'>
+                    <h3>@Umbraco.Field("imageTextTitle")</h3>
+                  </div>  
+                </div>
+				<div class="row">
+					<div class='large-8 large-centered columns'>
+						<marquee onMouseOver="this.scrollAmount=0" onMouseOut="this.scrollAmount=2" scrollamount="2" direction="up" loop="true" behavior="scroll" style="height:45px;text-align:center">
+							<p>@Umbraco.Field("imageSubText")</p>
+  							<p>@Umbraco.Field("imageSubText2")</p>
+							<p>@Umbraco.Field("imageSubText3")</p>
+						</marquee>
+                  	</div>	
+				</div>	
+              </div>
+              <!--<div class='buttons-wrapper bottom-to-top'>
+                <div class='row'>
+                  <div class='large-12 columns'>
+                    <div class='two spacing'></div>
+                    <a class='button' href='#'>Learn More</a>
+                  </div>
+                </div>
+              </div>-->
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>    
+    <div id="flag" class="small-up-3">
+          <div class="column black"></div>
+          <div class="column yellow"></div>
+          <div class="column red"></div>
+    </div>    
+    <div class='four spacing'></div>
+	<div class="row">
+        <div class="medium-4 large-4 columns">
+          <div data-connectors="1" class="fadein mod modIconText appear" data-delay="0">
+            <div class="icon-text-circle">
+				<i class="fa fa-@Model.Content.GetPropertyValue("serviceIcon1")"></i>
+				@Umbraco.Field("service1")
+            </div>
+            <div class="two spacing"></div>
+          </div>
+        </div>
+        <div class="medium-4 large-4 columns">
+          <div data-connectors="1" class="fadein mod modIconText appear" data-delay="200">
+            <div class="icon-text-circle">
+			 <i class="fa fa-hourglass"></i>	
+              @Umbraco.Field("service2")
+            </div>
+            <div class="two spacing"></div>
+          </div>
+        </div>
+        <div class="medium-4 large-4 columns">
+          <div data-connectors="1" class="fadein mod modIconText appear" data-delay="400">
+            <div class="icon-text-circle">
+				<i class="fa fa-@Model.Content.GetPropertyValue("serviceIcon3")"></i>
+              	@Umbraco.Field("service3")
+            </div>
+            <div class="two spacing"></div>
+          </div>
+        </div>
+      </div>
+	 <div class="full color-band-1">
+        <div class="row">
+          <div class="small-12 large-10 medium-10 large-centered medium-centered columns">
+            <div data-connectors="1" class="mod modSectionHeader">
+              <div class="special-title centered-text">
+                <h2>
+                 @Umbraco.Field("sectionTitle")
+                </h2>
+              </div>
+            </div>
+            <div class="spacing"></div>
+            <p>
+              @Umbraco.Field("sectionDescription")
+            </p>
+            <div class="two spacing"></div>
+          </div>
+        </div>
+		<div class="row">
+  			<div class="large-9 large-centered columns">
+				<div class="row">
+          <div class="small-12 medium-6 large-6 columns">
+            <div data-connectors="1" class="mod modTeamMember">
+              <div class="member">
+				  <img alt="@Umbraco.Field("name1")" class="avatar" height="200" width:"auto"  src="@Umbraco.Media(Model.Content.GetPropertyValue("teamMember1").ToString()).Url" />				
+                <div class="overlay">
+                  <div class="intro">
+                    <h4>@Umbraco.Field("name1")</h4>
+					<h5>@Umbraco.Field("position1")</h5> 
+                    <p>@Umbraco.Field("teamMember1Details")</p>
+                    <ul class="socials">
+                      <li>
+                        <a href="mailto:post@ailsby.com?subject=Website Enquiry">
+                          <i class="fa fa-envelope"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="two spacing"></div>
+            </div>
+          </div>
+             <div class="small-12 medium-6 large-6 columns">
+                <div data-connectors="1" class="mod modTeamMember">
+                  <div class="member">
+                    <img alt="@Umbraco.Field("name2")"class="avatar" height="200" width:"auto" src="@Umbraco.Media(Model.Content.GetPropertyValue("teamMember2Image").ToString()).Url" />
+                    <div class="overlay">
+                      <div class="intro">
+                        <h4>@Umbraco.Field("name2")</h4>
+						<h5>@Umbraco.Field("position2")</h5> 
+                    	<p>@Umbraco.Field("teamMember2Details")</p>
+                        <ul class="socials">
+                          <li>
+                            <a href="@Umbraco.Field("linkedinAccount2")">
+                              <i class="fa fa-linkedin"></i>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="mailto:post@ailsby.com?subject=Website Enquiry">
+                              <i class="fa fa-envelope"></i>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="two spacing"></div>
+                </div>
+          	</div> 
+        </div>
+      </div>
+			</div>
+		</div>
+        
+	 <div class="four spacing"></div>
+	<div class="row">
+          <div class="small-12 large-10 medium-10 large-centered medium-centered columns">
+            <div data-connectors="1" class="mod modSectionHeader">
+              <div class="special-title centered-text">
+                <h2>
+                  @Umbraco.Field("sectionTitleContact")
+                </h2>
+              </div>
+            </div>
+            <div class="spacing"></div>
+            <p>
+              @Umbraco.Field("sectionDescriptionContact")
+            </p>
+            <div class="two spacing"></div>
+          </div>
+        </div>
+	<div class="row">
+          <div class="medium-8 columns">
+            @Html.Partial("Contact")
+            <div class="two spacing"></div>
+          </div>
+          <div class="medium-4 columns">
+            <div class="contact-details">
+              <h4>@Umbraco.Field("#Offices", insertAfter: ":")</h4>
+              <p><strong>Belfast:</strong><br/>@Umbraco.Field("belfastAddress")</p>
+              <p><strong>Boston:</strong><br/>@Umbraco.Field("bostonAddress")</p>
+              <h4>@Umbraco.Field("#Telephone", insertAfter: ":")</h4>
+                <p><strong>@Umbraco.Field("#From the UK", insertAfter: ":")</strong> @Umbraco.Field("phoneFromUK")</p>
+                <p><strong>@Umbraco.Field("#From Germany", insertAfter: ":")</strong> @Umbraco.Field("phoneFromGermany")</p>
+            </div>
+          </div>
+        </div>			

@@ -1,0 +1,151 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = null;
+	var home = @CurrentPage.Site();
+}
+
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+  <head>
+
+    <!-- Meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="@CurrentPage.siteDescription">
+	  <meta name="google-site-verification" content="ql6lqviTiu9agqraBYkQkPBUgOzIYCiSWmBDnjkAHFY" />
+	
+
+    <title>@CurrentPage._siteTitle</title>
+	
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Rajdhani:300,400,500,700" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" media="screen" type="text/css"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+	
+    <!-- CSS -->
+   <link rel="stylesheet" href="/css/app.css">
+   <!-- Javascripts -->
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/js/libs.js"></script> 
+    <script src="/bower_components/foundation-sites/dist/foundation.min.js"></script>
+      <script>
+      // terrificjs bootstrap
+      (function($) {
+          $(document).ready(function() {
+              var $page = $('body');
+              var config = {
+                dependencyPath: {
+                  plugin: 'javascripts/'
+                }
+              }
+              var application = new Tc.Application($page, config);
+              application.registerModules();
+              application.start();
+          });
+      })(Tc.$);
+    </script>
+    </script>
+    <script src="/bower_components/masonry/dist/masonry.pkgd.min.js" type="text/javascript"></script>
+    <script src="/bower_components/imagesloaded/imagesloaded.pkgd.min.js" type="text/javascript"></script>
+    <script src="/js/slick.min.js" ></script>  
+    <script src="/bower_components/jquery.cookie/jquery.cookie.js" type="text/javascript"></script>
+    <script src="/bower_components/json2/json2.js" type="text/javascript"></script> 
+    <script src="/js/jquery.url.js" type="text/javascript"></script>
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+    
+  </head>
+
+  <body>
+    <a id='top'></a>
+    <div id='main' role='main'>
+		
+        <header>
+			<ul class="switcher">
+				<li><a title="English" href="/en/@Umbraco.Field("pageInOtherLangUrl")">EN</a></li>
+				<li><a title="German" href="/de/@Umbraco.Field("pageInOtherLangUrl")">DE</a></li>
+				<li><a title="Telephone" href="tel:@Umbraco.Field("phoneFromGermany")"><span class="hide-for-small-only"><strong>@Umbraco.Field("phoneFromGermany")</strong></span></a></li>
+				<!--<li><a data-toggle="contactModal"><span><i></i><span class="hide-for-small-only"><strong>@Umbraco.Field("phoneFromGermany")</strong> </span><em>@Umbraco.Field("#Request a call back")</em></span></a></li>-->
+			</ul>
+	
+            <div class="row">
+                <div class="columns small-12 small-centered centered-text">
+					<h1 class="logo">
+						<a href="@home.Url">
+							<img class="brand" src="@Umbraco.Media(Model.Content.GetPropertyValue("SiteLogo").ToString()).Url" />
+						</a>
+					</h1>
+				</div>
+            </div>
+			
+        </header>
+		
+       
+          		
+    @RenderBody()
+
+    <div id='footer'>
+      <div class='row'>
+        <div class='large-8 large-centered medium-centered medium-9 columns'>
+          <div class="branding">
+            <a href='index.html'>
+              <img alt="Ailsby" title="Ailsby"  src="/media/1084/logo-white.png" />
+            </a>
+          </div>
+          <p>©@DateTime.Now.Year |  Ailsby Limited. All rights reserved.  |  <a data-toggle="termsModal">@Umbraco.Field("#Terms")</a>  |  <a data-toggle="legalModal">@Umbraco.Field("#Legal Notice")</a></p>
+        </div>
+      </div>
+    </div>
+    <!-- Terms Modal -->
+    <div class="large reveal" id="termsModal" data-reveal data-animation-in="slide-in-up" data-animation-out="slide-out-down">
+      <h1>@Umbraco.Field("#Terms")</h1>
+      @Umbraco.Field("descriptionTerms")
+
+      <button class="close-button" data-close aria-label="Close reveal" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+     <!-- Legal Modal -->
+    <div class="large reveal" id="legalModal" data-reveal data-animation-in="slide-in-up" data-animation-out="slide-out-down">
+      <h1>@Umbraco.Field("#Legal Notice")</h1>
+      @Umbraco.Field("descriptionLegal")
+
+      <button class="close-button" data-close aria-label="Close reveal" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+	<!-- Contact Modal -->  
+	<div class="large reveal" id="contactModal" data-reveal data-close-on-click="true" data-animation-in="slide-in-up" data-animation-out="slide-out-down">
+	  <h1>@Umbraco.Field("#Request a call back")</h1>
+	  <p class='lead'></p>
+	  <button class="close-button" data-close aria-label="Close reveal" type="button">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>	
+    <!-- Javascripts -->
+	<script src="/js/jquery.appear.js" type="text/javascript"></script>
+    <script src="/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/js/jquery.sequence-min.js" type="text/javascript"></script>  
+    <script src="/bower_components/jquery.easing/js/jquery.easing.min.js" type="text/javascript"></script>
+    <script src="/js/app.js" type="text/javascript"></script>
+    <script src="/js/jquery.sequence-min.js" type="text/javascript"></script>	
+	<script src="/scripts/contact.js" type="text/javascript"></script>
+    <script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-105011440-1', 'auto');
+	  ga('send', 'pageview');
+	</script>		  
+  </body>
+</html>

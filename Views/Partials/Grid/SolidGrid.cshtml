@@ -1,0 +1,132 @@
+﻿@inherits UmbracoViewPage<dynamic>
+@using Newtonsoft.Json.Linq
+
+@*
+    SolidGrid renderer contributed by Patrick Robin.
+*@
+
+@if (Model != null && Model.sections != null)
+{
+    var singleSection = ((System.Collections.ICollection)Model.sections).Count == 1;
+
+    if (singleSection)
+    {
+        foreach (var section in Model.sections)
+        {
+            foreach (var row in section.rows)
+            {
+                @RenderRow(row)
+            }
+        }
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var s in Model.sections)
+            {
+                <div class="@ColumnClass(s.grid)">
+                    @foreach (var row in s.rows)
+                    {
+                        @RenderRow(row)
+                    }
+                </div>
+            }
+        </div>
+    }
+}
+
+@helper RenderRow(dynamic row)
+{
+    if (HasAttributes(row))
+    {
+        <div @RenderElementAttributes(row)>
+            <div class="row">
+                @foreach (var area in row.areas)
+                {
+                    @RenderColumn(area)
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var area in row.areas)
+            {
+                @RenderColumn(area)
+            }
+        </div>
+    }
+}
+
+@helper RenderColumn(dynamic column)
+{
+    if (HasAttributes(column))
+    {
+        <div class="@ColumnClass(column.grid)">
+            <div @RenderElementAttributes(column)>
+                @foreach (var control in column.controls)
+                {
+                    if (control != null && control.editor != null && control.editor.view != null)
+                    { <text>@Html.Partial("grid/editors/base", (object)control)</text> }
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="@ColumnClass(column.grid)">
+            @foreach (var control in column.controls)
+            {
+                if (control != null && control.editor != null && control.editor.view != null)
+                { <text>@Html.Partial("grid/editors/base", (object)control)</text> }
+            }
+        </div>
+    }
+}
+@functions
+{
+    public static bool HasAttributes(dynamic element)
+    {
+        return (element.config != null && ((JObject)element.config).HasValues) || (element.style != null && ((JObject)element.style).HasValues);
+    }
+
+    public static string ColumnClass(dynamic columns)
+    {
+        var columnClasses = new[] { "one column", "two columns", "three columns", "four columns", "five columns", "six columns", "seven columns", "eight columns", "nine columns", "ten columns", "eleven columns", "twelve columns" };
+
+        return columnClasses[columns - 1];
+    }
+
+    public static MvcHtmlString RenderElementAttributes(dynamic contentItem)
+    {
+        var attrs = new List<string>();
+        JObject cfg = contentItem.config;
+
+        if (cfg != null)
+        {
+            foreach (JProperty property in cfg.Properties())
+            {
+                attrs.Add(property.Name + "='" + property.Value.ToString() + "'");
+            }
+        }
+
+        JObject style = contentItem.styles;
+
+        if (style != null)
+        {
+            var cssVals = new List<string>();
+            foreach (JProperty property in style.Properties())
+            {
+                cssVals.Add(property.Name + ":" + property.Value.ToString() + ";");
+            }
+
+            if (cssVals.Any())
+            {
+                attrs.Add("style='" + string.Join(" ", cssVals) + "'");
+            }
+        }
+
+        return new MvcHtmlString(string.Join(" ", attrs));
+    }
+}

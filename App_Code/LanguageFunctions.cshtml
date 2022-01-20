@@ -1,0 +1,30 @@
+@using umbraco;
+@using Umbraco.Core;
+@using Umbraco.Core.Models;
+@using umbraco.cms.businesslogic.web;
+@functions
+{
+    public static string FindPageInOtherLanguage(int pageId, int langId)
+    {
+        var rs = ApplicationContext.Current.Services.RelationService;
+
+        // See if this page has a related child page in the requested language
+        IEnumerable<IRelation> relations = rs.GetByParentId(pageId).Where(r => r.RelationType.Alias == "relateDocumentOnCopy");
+        foreach (IRelation rel in relations)
+        {
+            Domain[] domains = library.GetCurrentDomains(rel.ChildId);
+            if (domains.Length > 0 && domains[0].Language.id == langId)
+                return library.NiceUrl(rel.ChildId);
+        }
+
+        // See if this page has a related parent page in the requested language
+        relations = rs.GetByChildId(pageId).Where(r => r.RelationType.Alias == "relateDocumentOnCopy");
+        foreach (IRelation rel in relations)
+        {
+            Domain[] domains = library.GetCurrentDomains(rel.ParentId);
+            if (domains.Length > 0 && domains[0].Language.id == langId)
+                return library.NiceUrl(rel.ParentId);
+        }
+        return string.Empty;
+    }
+}

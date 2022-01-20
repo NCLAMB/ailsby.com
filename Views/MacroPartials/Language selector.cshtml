@@ -1,0 +1,28 @@
+﻿@using umbraco.cms.businesslogic.web;
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@{
+    umbraco.cms.businesslogic.language.Language curLanguage = library.GetCurrentDomains(CurrentPage.Id)[0].Language;
+    List<umbraco.cms.businesslogic.language.Language> allLanguages = new List<umbraco.cms.businesslogic.language.Language>();
+    foreach (var homePage in Umbraco.TypedContentAtRoot().Where(p => p.DocumentTypeAlias == "Home"))
+    {
+        Domain domain = Domain.GetDomainsById(homePage.Id)[0];
+        allLanguages.Add(domain.Language);
+    }
+}
+
+<select id="selectLang" onchange="redirect(this)">
+			 @foreach (umbraco.cms.businesslogic.language.Language language in allLanguages)
+			 {
+			  string selected = language == curLanguage ? "selected" : "";
+					string pageInOtherLangUrl = LanguageFunctions.FindPageInOtherLanguage(CurrentPage.Id, language.id);
+			  <option value="@pageInOtherLangUrl" @selected>@language.FriendlyName</option>
+			 }
+</select>
+	
+			<script type="text/javascript">
+				function redirect(selItem) {
+					if (selItem.value != "")
+				  window.location = selItem.value;
+			 }
+			</script>
+

@@ -1,0 +1,79 @@
+﻿@inherits UmbracoViewPage<dynamic>
+@using Umbraco.Web.Templates
+@using Newtonsoft.Json.Linq
+@*
+    Razor helpers located at the bottom of this file
+*@
+@{
+    var numberAsWord = new string[] {
+        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven",
+        "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen",
+        "twenty", "twenty-one", "twenty-two", "twenty-three", "twenty-four", "twenty-five", "twenty-six", "twenty-seven",
+        "twenty-eight", "twenty-nine", "thirty", "thirty-one", "thirty-two", "thirty-three",
+        "thirty-four", "thirty-five", "thirty-six"
+    };
+}
+@if (Model != null && Model.sections != null)
+{
+    <div class="umb-grid">
+        <div class="row clearfix">
+            @foreach (var s in Model.sections)
+            {
+                <div class="@numberAsWord[s.grid - 1] columns">
+                    @foreach (var row in s.rows)
+                    {
+                        @renderRow(row, numberAsWord);
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}
+@helper renderRow(dynamic row, string[] numberAsWord)
+{
+    <div@(RenderElementAttributes(row))>
+        <div class="row clearfix">
+            @foreach (var area in row.areas)
+            {
+                <div class="@numberAsWord[area.grid - 1] columns">
+                    <div @RenderElementAttributes(area)>
+                        @foreach (var control in area.controls)
+                        {
+                            if (control != null && control.editor != null && control.editor.view != null)
+                            {
+                                <text>@Html.Partial("grid/editors/base", (object)control)</text>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+@functions {
+    public static MvcHtmlString RenderElementAttributes(dynamic contentItem)
+    {
+        var attrs = new List<string>();
+        JObject cfg = contentItem.config;
+
+        if (cfg != null)
+            foreach (JProperty property in cfg.Properties())
+            {
+                attrs.Add(property.Name + "='" + property.Value.ToString() + "'");
+            }
+
+        JObject style = contentItem.styles;
+
+        if (style != null)
+        {
+            var cssVals = new List<string>();
+            foreach (JProperty property in style.Properties())
+                cssVals.Add(property.Name + ":" + property.Value.ToString() + ";");
+
+            if (cssVals.Any())
+                attrs.Add(" style='" + string.Join(" ", cssVals) + "'");
+        }
+
+        return new MvcHtmlString(string.Join(" ", attrs));
+    }
+}

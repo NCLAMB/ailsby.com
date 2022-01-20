@@ -1,0 +1,32 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@*
+    The contact form is handled through javascript
+    See /Scripts/contact.js for the AJAX post
+*@	
+<!-- Contact -->
+<div class="form">
+    <div class="row">
+		<div class="large-12 columns">
+					<p class="sending-message">@Umbraco.Field("emailSendingMessage")</p>
+					<p class="success-message">@Umbraco.Field("emailSuccessMessage")</p>
+					<p class="error-message">@Umbraco.Field("emailErrorMessage")</p>
+            </div>
+		<form id="contact_form"method="post" action="#">
+        <div class="medium-12 columns">
+                <input type="text" class="required" name="name" id="name" value="" placeholder="Name" />
+				<input type="email" name="email" id="email" value="" placeholder="@Umbraco.Field("#Email")" />	
+				<input type="text" name="subject" id="subject" value="" placeholder="@Umbraco.Field("#Subject")" />	
+				<input type="text" name="telephone" id="name" value="" placeholder="Telephone" />	
+                <textarea name="message" id="message" placeholder="@Umbraco.Field("#Enter your message")" rows="6"></textarea>
+                <div class="actions align-center">
+                    <a href="" class="button form send" rel="nofollow">@Umbraco.Field("#Send message")</a>
+                </div>
+				<input type="hidden" name="settingsNodeId" value="@CurrentPage.Id" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+			
